@@ -1,48 +1,85 @@
-{% extends "account/base_entrance.html" %}
-{% load i18n %}
+{% extends "adminlte/base.html" %}
+{% load i18n static %}
 {% load allauth account %}
-{% block head_title %}
-    {% trans "Sign In" %}
-{% endblock head_title %}
-{% block content %}
-    {% element h1 %}
-        {% trans "Sign In" %}
-    {% endelement %}
-    {% if not SOCIALACCOUNT_ONLY %}
-        {% setvar link %}
-            <a href="{{ signup_url }}">
-            {% endsetvar %}
-            {% setvar end_link %}
-            </a>
-        {% endsetvar %}
-        {% element p %}
-            {% blocktranslate %}If you have not created an account yet, then please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
-        {% endelement %}
-        {% url 'account_login' as login_url %}
-        {% element form form=form method="post" action=login_url tags="entrance,login" %}
-            {% slot body %}
-                {% csrf_token %}
-                {% element fields form=form unlabeled=True %}
-                {% endelement %}
-                {{ redirect_field }}
-            {% endslot %}
-            {% slot actions %}
-                {% element button type="submit" tags="prominent,login" %}
-                    {% trans "Sign In" %}
-                {% endelement %}
-            {% endslot %}
-        {% endelement %}
-    {% endif %}
-    {% if LOGIN_BY_CODE_ENABLED %}
-        {% element hr %}
-        {% endelement %}
-        {% element h2 %}
-            {% element button href=request_login_code_url tags="prominent,login,secondary" %}
-                {% trans "Mail me a sign-in code" %}
-            {% endelement %}
-        {% endelement %}
-    {% endif %}
-    {% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-    {% endif %}
-{% endblock content %}
+{% block body_class %}login-page{% endblock body_class %}
+
+{% block body %}
+    <div class="login-box">
+        {% block logo %}
+        <div class="login-logo">
+            <a href=""><b>Coins</b> Challenger</a>
+        </div>
+        {% endblock logo %}
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                {% block login_errors %}
+                    {% if form.errors and not form.non_field_errors %}
+                        <p class="alert alert-danger">
+                            {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}
+                                {% trans "Please correct the errors below." %}{% endif %}
+                        </p>
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <p class="alert alert-danger">
+                                {{ error }}
+                            </p>
+                        {% endfor %}
+                    {% endif %}
+                {% endblock login_errors %}
+                <p class="login-box-msg">Sign in to start your session</p>
+                {% block login_form %}
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {% if message %}
+                            <p class="login-box-msg" style="color: red;">{{ message }}</p>
+                        {% endif %}
+                        <div class="input-group mb-3">
+                          <input type="text" class="form-control" placeholder="{% trans 'User' %}" name="login">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-envelope"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="input-group mb-3">
+                          <input type="password" class="form-control" placeholder="{% trans 'Password' %}" name="password">
+                          <div class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-lock"></span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+
+                            <div class="col-8">
+                                <div class="icheck-primary">
+                                    <input type="checkbox" id="remember">
+                                    <label for="remember">
+                                        Remember Me
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-4">
+                                <button type="submit" class="btn btn-primary btn-block">{% trans 'Sign In' %}</button>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </form>
+                {% endblock login_form %}
+                
+                <p class="mb-0 mt-5">
+                    <a href="/signup/" class="text-center">Register a new membership</a>
+                </p>
+
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.login-box -->
+{% endblock body %}
