@@ -9,10 +9,10 @@ Tela de Login
 ![tela de login](imgs/login.jpg)
 
 Dashboard
-![dashboard](imgs/dashboard.jpg)
+![dashboard](imgs/dashboard.png)
 
 Filtro
-![filtro](imgs/filter.jpg)
+![filtro](imgs/filter.png)
 
 ### commands:
 
@@ -24,3 +24,6 @@ Filtro
 
 During Docker execution, the application will create migrations, static files and generate the user **Admin** with password **123**.
 
+## .env
+
+you need to create a `.env` file inside the `dotenv_files` folder, you can use the `.env_example` file as a guide

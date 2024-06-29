@@ -37,8 +37,8 @@
         <h1>Cotações de Criptomoedas</h1>
         <div class="search-form">
             <form method="get" action="{% url 'home:fetch_external_api_data' %}">
-                <input type="text" name="symbols" placeholder="Digite os símbolos das criptomoedas (ex: BTC,ETH)" value="{{ symbols }}">
-                <button type="submit">Pesquisar</button>
+                <input type="text" name="symbols" placeholder="Digite os símbolos das criptomoedas (ex: BTC,ETH)" value="{{ symbols }}"  class="form-control" >
+                <button type="submit" class="btn btn-primary btn-block mt-1">Pesquisar</button>
             </form>
         </div>
         {% if error %}
@@ -50,7 +50,6 @@
                         <th>Nome</th>
                         <th>Símbolo</th>
                         <th>Preço</th>
-                        <th>Última Atualização</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,8 +57,7 @@
                         <tr>
                             <td>{{ crypto.name }}</td>
                             <td>{{ crypto.symbol }}</td>
-                            <td>{{ crypto.quote.USD.price }}</td>
-                            <td>{{ crypto.last_updated }}</td>
+                            <td>${{ crypto.quote.USD.price |floatformat:2 }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
