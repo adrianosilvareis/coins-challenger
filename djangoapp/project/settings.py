@@ -20,6 +20,9 @@ load_dotenv("dotenv_files/.env")
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR.parent / 'data' / 'web'
 
+BASE_MARKETCAP_URL = os.getenv('MARKETCAP_BASE_URL', 'CHANGE-ME')
+API_KEY = os.getenv('MARKETCAP_API_KEY', 'CHANGE-ME')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -50,6 +53,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'adminlte3',
     'adminlte3_theme',
+    'requests',
     'home',
 ]
 

@@ -3,3 +3,4 @@ psycopg2-binary>=2.9.6,<2.10
 load-dotenv==0.1.0,<0.2
 django-allauth==0.63.3,<0.64
 django-adminlte3==0.1.6,<0.2
+requests==2.32.3,<2.33

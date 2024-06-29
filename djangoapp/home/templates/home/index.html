@@ -1,5 +1,71 @@
 {% extends 'adminlte/base.html' %}
 
 {% block content %}
-your awesome content
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .search-form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .crypto-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .crypto-table th, .crypto-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .crypto-table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cotações de Criptomoedas</h1>
+        <div class="search-form">
+            <form method="get" action="{% url 'home:fetch_external_api_data' %}">
+                <input type="text" name="symbols" placeholder="Digite os símbolos das criptomoedas (ex: BTC,ETH)" value="{{ symbols }}">
+                <button type="submit">Pesquisar</button>
+            </form>
+        </div>
+        {% if error %}
+            <p style="color: red;">Erro: {{ error }}</p>
+        {% elif data %}
+            <table class="crypto-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Símbolo</th>
+                        <th>Preço</th>
+                        <th>Última Atualização</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for symbol, crypto in data.items %}
+                        <tr>
+                            <td>{{ crypto.name }}</td>
+                            <td>{{ crypto.symbol }}</td>
+                            <td>{{ crypto.quote.USD.price }}</td>
+                            <td>{{ crypto.last_updated }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</body>
+
 {% endblock %}
